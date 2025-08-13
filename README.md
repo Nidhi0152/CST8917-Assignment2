@@ -11,23 +11,24 @@
 
 | Cloud Provider | Equivalent Service | Description |
 | --- | --- | --- |
-| **Azure** | Azure Functions | Event-driven serverless compute service with extensive trigger and binding support. |
-| **AWS** | AWS Lambda | Event-driven compute triggered by AWS events, HTTP requests, or schedules. |
-| **GCP** | Cloud Functions | Lightweight event-driven compute triggered by HTTP, events, or Pub/Sub. |
+| **Azure** | Azure Functions | Microsoft’s FaaS (launched 2016) for event-driven, stateless code with rich triggers and bindings. |
+| **AWS** | AWS Lambda | Amazon’s FaaS (launched 2014) running code on AWS events, HTTP, or schedules. |
+| **GCP** | Cloud Functions | Google’s FaaS (launched 2016) for lightweight event-driven workloads via HTTP, Pub/Sub, or storage. |
 
 **Comparison Table**
 
 | Criteria | Azure Functions | AWS Lambda | GCP Cloud Functions |
 | --- | --- | --- | --- |
-| **Core Features** | Multiple triggers & bindings (Blob, Queue, HTTP, Cosmos DB, Event Hub, Service Bus). | Event sources like S3, DynamoDB Streams, API Gateway, EventBridge. | HTTP triggers, Pub/Sub, Cloud Storage events, Firestore. |
-| **Integration** | Azure-native services, CI/CD via Azure DevOps & GitHub Actions. | AWS-native ecosystem, integrates with SAM, CDK, CodePipeline. | Works with GCP services, Cloud Build, Cloud Deploy. |
-| **Monitoring** | Azure Monitor, App Insights, Log Analytics. | CloudWatch Logs, X-Ray. | Cloud Logging, Monitoring, Error Reporting. |
-| **Pricing** | Pay-per-execution, first 1M free/month. | Pay-per-execution, first 1M free/month. | Pay-per-execution, first 2M free/month. |
-| **Strengths** | Rich bindings, strong integration. | Large ecosystem, mature runtime. | Simple setup, Firebase integration. |
-| **Weaknesses** | Azure-focused. | No native bindings. | Limited triggers. |
+| **Core Features** | Multiple triggers & bindings (HTTP, Blob, Queue, Cosmos DB, Event Hub, Service Bus, Timers). | Event sources like S3, DynamoDB Streams, API Gateway, EventBridge. | HTTP triggers, Pub/Sub, Cloud Storage events, Firestore. |
+| **Integration** | Deep Azure ecosystem integration; CI/CD with Azure DevOps, GitHub Actions; native HTTP support out of the box. | AWS-native integration; requires API Gateway for HTTP; integrates with SAM, CDK, CodePipeline. | Tight GCP integration; native HTTP support; works with Cloud Build, Cloud Deploy. |
+| **Monitoring** | Azure Monitor, Application Insights, Log Analytics. | CloudWatch Logs, X-Ray. | Cloud Logging, Cloud Monitoring, Error Reporting. |
+| **Pricing** | 400,000 GB-sec & 1M requests free/month; $0.20 per extra 1M requests; $0.000016 per GB-sec; 1 ms billing. | Same as Azure. | 400,000 GB-sec & 2M requests free/month; $0.40 per extra 1M requests; $0.0000125 per GB-sec; 100 ms billing. |
+| **Strengths** | Rich bindings model; streamlined HTTP integration; flexible hosting plans (Consumption, Premium, Dedicated). | Mature ecosystem; custom concurrency controls; provisioned concurrency to reduce cold starts. | Extra free tier requests; simpler setup; Firebase-friendly. |
+| **Weaknesses** | Higher cold start times (>5s) than AWS and GCP; no native Go runtime. | Requires separate API Gateway for HTTP; no native bindings. | Rounds duration to nearest 100 ms; no PowerShell runtime. |
+
 
 **Narrative Analysis:**  
-Azure Functions shine for integration-heavy workloads with its bindings model. AWS Lambda offers the broadest ecosystem reach but requires manual wiring. GCP Cloud Functions is the most beginner-friendly.
+Azure Functions delivers extensive trigger and binding options, making it well-suited for integration-heavy and event-driven workloads. Its multiple hosting plans allow developers to choose between cost efficiency and performance. AWS Lambda is more mature, offers better cold start mitigation, and provides granular concurrency control, but lacks native bindings. GCP Cloud Functions stands out with its larger free request quota and ease of setup, though its 100 ms billing increments can increase costs at scale.
 
 ---
 
