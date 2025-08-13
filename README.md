@@ -3,7 +3,6 @@
 # CST8917 – Serverless Service Alternatives Report
 
 **Author:** *Nidhi Desai*  
-**Date:** August 15, 2025  
 
 ---
 
@@ -37,24 +36,24 @@ Azure Functions delivers extensive trigger and binding options, making it well-s
 | Cloud Provider | Equivalent Service | Description |
 | --- | --- | --- |
 | **Azure** | Durable Functions | Extension of Azure Functions for orchestrated, stateful workflows. |
-| **AWS** | AWS Step Functions | Orchestration service for AWS Lambdas & services. |
-| **GCP** | Workflows | Service to orchestrate GCP APIs and HTTP endpoints. |
+| **AWS** | AWS Step Functions | Visual workflow orchestration for distributed and serverless applications. |
+| **GCP** | Workflows | Orchestrates Google Cloud services and APIs in a serverless workflow. |
 
 **Comparison Table**
 
 | Criteria | Azure Durable Functions | AWS Step Functions | GCP Workflows |
 | --- | --- | --- | --- |
-| **Core Features** | Function chaining, fan-out/fan-in, human interaction patterns. | Sequential, parallel, branching workflows. | Sequential, parallel, API orchestration. |
-| **Integration** | Works with Azure Functions & bindings. | Integrates with Lambda, ECS, SQS, API Gateway. | Integrates with Cloud Run, Pub/Sub. |
-| **Monitoring** | App Insights, Azure Monitor. | CloudWatch, Step Functions Console. | Cloud Logging, Workflow Execution Logs. |
-| **Pricing** | Pay-per-action + function execution. | Pay-per-state transition. | Pay-per-step execution. |
-| **Strengths** | Code-first orchestration. | Visual workflow design. | Simple YAML orchestration. |
-| **Weaknesses** | Azure-only. | Higher cost at scale. | Fewer built-in integrations. |
+| **Core Features** | Function chaining, fan-out/fan-in, human interaction patterns. | Sequential, parallel, branching workflows for order processing, ETL, microservices orchestration. | Sequential, parallel orchestration of APIs and services. |
+| **Integration** | Works with Azure Functions & bindings. | Integrates with Lambda, S3, Kinesis, SNS, SQS, DynamoDB, ECS. | Integrates with Cloud Functions, Cloud Run, Pub/Sub, BigQuery. |
+| **Monitoring** | Azure Monitor, Application Insights. | AWS Management Console visualization, CloudWatch, CloudTrail. | Cloud Logging, Cloud Monitoring. |
+| **Pricing** | Pay-per-action + function execution. | Pay-per-state transition + execution time. | Pay-per-step execution. |
+| **Strengths** | Code-first orchestration; deep Azure integration. | Visual design; robust AWS integration; high availability. | Simple YAML/JSON orchestration; easy API automation. |
+| **Weaknesses** | Azure-only; less visual. | Costly at scale with many state transitions. | Fewer advanced features than AWS or Azure. |
 
 **Narrative Analysis:**  
-Durable Functions are developer-friendly for code-based orchestration. AWS Step Functions excel with visual design. GCP Workflows is light and straightforward but less feature-rich.
+Durable Functions target developers preferring code-based orchestration, offering strong integration with Azure services. AWS Step Functions is ideal for visual, large-scale workflows with mature AWS service integration. GCP Workflows offers lightweight orchestration for API-based automation within Google Cloud.
 
----
+----
 
 ## 3. Azure Logic Apps
 
@@ -153,3 +152,8 @@ From a serverless perspective:
 - **Best simplicity & global delivery** → GCP  
 
 ---
+
+## Reference
+
+- [Serverless showdown: AWS Lambda vs Azure Functions vs Google Cloud Functions](https://www.pluralsight.com/resources/blog/cloud/serverless-showdown-aws-lambda-vs-azure-functions-vs-google-cloud-functions)
+- 
