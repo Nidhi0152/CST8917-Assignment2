@@ -82,63 +82,72 @@ Logic Apps are best for quick, connector-heavy automation. AWS splits features a
 ## 4. Azure Service Bus (Queues & Topics)
 
 | Cloud Provider | Equivalent Service | Description |
-| --- | --- | --- |
-| **Azure** | Service Bus | Fully managed enterprise messaging (queues & pub/sub). |
-| **AWS** | Amazon SQS (queues) + SNS (topics) | SQS for FIFO/standard queues; SNS for pub/sub. |
-| **GCP** | Pub/Sub | Global pub/sub messaging. |
+| -------------- | ------------------ | ----------- |
+| **Azure**      | Azure Service Bus  | Enterprise-grade messaging with queues, topics, sessions, filtering, and dead-letter support. |
+| **AWS**        | Amazon SQS + SNS   | SQS for queueing messages; SNS for pub/sub notifications. |
+| **GCP**        | Google Pub/Sub     | Global pub/sub messaging for real-time event delivery. |
 
 **Comparison Table**
 
-| Criteria | Azure Service Bus | AWS SQS + SNS | GCP Pub/Sub |
-| --- | --- | --- | --- |
-| **Core Features** | FIFO queues, topics, dead-letter queues, sessions. | SQS queues, SNS pub/sub, dead-letter queues. | Pub/sub, push & pull delivery, DLQs. |
-| **Integration** | Azure Functions, Logic Apps. | Lambda, Step Functions. | Cloud Functions, Dataflow. |
-| **Monitoring** | Azure Monitor, Metrics. | CloudWatch. | Cloud Monitoring. |
-| **Pricing** | Per operation, message size, connection. | Pay-per-request. | Pay per message volume. |
-| **Strengths** | Enterprise features (sessions, transactions). | High durability, simple scaling. | Global low-latency delivery. |
-| **Weaknesses** | Azure-only. | SNS/SQS split model. | No FIFO support. |
+| Criteria              | Azure Service Bus                             | AWS SQS + SNS                                  | GCP Pub/Sub                                              |
+|-----------------------|-----------------------------------------------|------------------------------------------------|----------------------------------------------------------|
+| **Core Features**     | Queues, topics, sessions, dead-lettering, filters. | SQS (queues), SNS (pub/sub).                   | Real-time pub/sub, global delivery.                      |
+| **Integration**       | Works with Azure Functions, Logic Apps, Event Grid, IoT Hub. | Integrates with Lambda, EventBridge, SNS, SQS. | Integrates with Cloud Functions, Dataflow, BigQuery.     |
+| **Security**          | RBAC via Azure AD, encryption, AAD integration. | IAM-based, data encryption at rest & transit.  | IAM, VPC controls, encryption at rest & transit.         |
+| **Pricing**           | Tiered: Basic/Standard/Premium by operations & data volume. | Pay-per-request (SQS) and per-notification (SNS). | Pay-as-you-go by message count and data volume.          |
+| **Scalability & Performance** | High availability, geo-replication, sub-millisecond latency, high throughput. | Auto-scaling queues, high durability.          | Low-latency, high-throughput, SLA-backed performance.    |
+| **Strengths**         | Rich enterprise features: filtering, sessions, dead-lettering. | Simple, durable, highly available.             | Global scale, simple pub/sub model, strong GCP integration. |
+| **Weaknesses**        | More complex setup; costlier feature-rich tiers. | Lacks advanced features like sessions, filtering. | No FIFO by default; fewer enterprise messaging features. |
+
+**Narrative Analysis:**  
+Azure Service Bus stands out for advanced enterprise messaging features—including sessions, filtering, and dead-letter capabilities—making it ideal for complex, resilient architectures. AWS achieves similar functionality through separate services (SQS for queues, SNS for pub/sub), offering simplicity and robustness but with fewer advanced features. GCP Pub/Sub excels in real-time, globally scaled messaging, though it trades off some enterprise-grade capabilities found in Azure Service Bus.
 
 ---
-
 ## 5. Azure Event Grid
 
 | Cloud Provider | Equivalent Service | Description |
-| --- | --- | --- |
-| **Azure** | Event Grid | Event routing for reactive architectures. |
-| **AWS** | EventBridge | Event bus for routing events. |
-| **GCP** | Eventarc | Event routing to GCP services. |
+| -------------- | ------------------ | ----------- |
+| **Azure**      | Azure Event Grid   | Fully managed Pub/Sub event routing service supporting HTTP and MQTT ingestion, CNCF CloudEvents format, and native integration with Azure services. Ideal for building reactive, event-driven applications with minimal infrastructure management. |
+| **AWS**        | Amazon EventBridge | Point-to-point event bus for ingesting, filtering, and routing events with optional simple transformations. Best suited for AWS-centric event-driven architectures. |
+| **GCP**        | Google Eventarc    | Point-to-point event delivery service, primarily focused on Google Cloud integrations, supporting the CNCF CloudEvents format but lacking in-flight transformations. |
 
 **Comparison Table**
 
-| Criteria | Azure Event Grid | AWS EventBridge | GCP Eventarc |
-| --- | --- | --- | --- |
-| **Core Features** | Event filtering, fan-out, retries. | Event filtering, schema registry. | Event routing, filters. |
-| **Integration** | Azure Functions, Logic Apps. | Lambda, Step Functions. | Cloud Run, Functions. |
-| **Monitoring** | Azure Monitor. | CloudWatch. | Cloud Logging. |
-| **Pricing** | Per million operations. | Per event published/ingested. | Per event delivered. |
-| **Strengths** | Tight Azure integration. | SaaS/event source variety. | Strong GCP-native routing. |
-| **Weaknesses** | Azure-focused. | Slightly more complex config. | Smaller event source list. |
+| Criteria | Azure Event Grid | AWS EventBridge | Google Eventarc |
+|----------|------------------|-----------------|-----------------|
+| **Core Features** | Pub/Sub topics, HTTP & MQTT ingestion, CloudEvents format, filtering by content/metadata. | Rules-based event routing, optional transformations, AWS product integrations. | Point-to-point delivery, CloudEvents format, GCP product integrations. |
+| **Integration** | Native Azure services (Functions, Logic Apps, Service Bus) + HTTP/MQTT for external systems; works with Azure DevOps & GitHub Actions. | Deep AWS integration, custom API ingestion for external systems, works with AWS CI/CD pipelines. | Strong GCP service integration, external via REST API; integrates with Cloud Build. |
+| **Monitoring & Observability** | Azure Monitor, Log Analytics, Azure Dashboard, dead-letter destinations. | Amazon CloudWatch, DLQ support, Event Replay. | GCP Cloud Logging, DLQ via Pub/Sub. |
+| **Pricing Model** | Pay-per-event (ingress, matches, delivery). Serverless, no infra costs. | Pay-per-event + state transitions (Pipes/Scheduler). | Pay-per-event; cost per trigger execution. |
+| **Strengths** | Easy integration with Azure, HTTP/MQTT ingestion, CloudEvents support | Deep AWS integration, optional event archival | Tight GCP integration, CloudEvents support | 
+| **Weaknesses** | No event archival, no in-flight processing | Requires custom development for many external sources, complex
+
+**Narrative Analysis:**  
+Azure Event Grid is best suited for teams operating in the Azure ecosystem who need a lightweight, scalable event routing service. Its Pub/Sub model simplifies scaling and decoupling between event producers and consumers, and its support for the CNCF CloudEvents standard reduces integration effort with compliant sources. While it lacks built-in complex processing, pairing it with Azure Functions or Logic Apps enables flexible workflows. Compared to AWS EventBridge, it offers simpler external event ingestion via HTTP and MQTT, and compared to Google Eventarc, it has stronger support for external destinations.
 
 ---
 
 ## 6. Azure Event Hubs
 
 | Cloud Provider | Equivalent Service | Description |
-| --- | --- | --- |
-| **Azure** | Event Hubs | Big data streaming ingestion. |
-| **AWS** | Kinesis Data Streams | Scalable real-time streaming. |
-| **GCP** | Pub/Sub | Large-scale event ingestion. |
+| -------------- | ------------------ | ----------- |
+| **Azure**      | Azure Event Hubs   | Fully managed real-time data ingestion and streaming platform capable of handling millions of events per second. Ideal for IoT telemetry, log/event processing, and large-scale analytics pipelines. |
+| **AWS**        | Amazon Kinesis     | Fully managed platform for collecting, processing, and analyzing streaming data in real time, with deep AWS service integration. |
+| **GCP**        | Google Cloud Pub/Sub | Global messaging and event ingestion service for building real-time, event-driven applications with high throughput and low latency. |
 
 **Comparison Table**
 
-| Criteria | Azure Event Hubs | AWS Kinesis | GCP Pub/Sub |
-| --- | --- | --- | --- |
-| **Core Features** | High-throughput streaming, partitioned consumers. | Real-time data streams, shards. | Pub/sub messaging, global. |
-| **Integration** | Stream Analytics, Functions. | Lambda, Firehose. | Dataflow, Functions. |
-| **Monitoring** | Azure Monitor. | CloudWatch. | Cloud Monitoring. |
-| **Pricing** | Throughput units/hour. | Per shard-hour + data transfer. | Per message volume. |
-| **Strengths** | Deep Azure analytics integration. | Fine-grained scaling. | Global low-latency delivery. |
-| **Weaknesses** | TU model can be costly. | Requires shard mgmt. | No ordering guarantee. |
+| Criteria | Azure Event Hubs | Amazon Kinesis | Google Cloud Pub/Sub |
+|----------|------------------|---------------|----------------------|
+| **Core Features** | Real-time event ingestion, multiple consumer groups, partitioned data streams, integration with Azure Functions/Stream Analytics for processing. | Real-time streaming, shard-based scaling, replay capabilities, integration with Lambda/Analytics tools. | Pub/Sub messaging, push & pull delivery, message filtering, fan-out to multiple subscribers. |
+| **Integration Options** | Tight Azure integration (Functions, Stream Analytics, Synapse, Machine Learning); supports Kafka protocol; CI/CD via Azure DevOps/GitHub Actions. | Native AWS service integration (S3, Lambda, EMR, SageMaker); pipelines via CodePipeline. | Works with GCP services (Dataflow, BigQuery, Cloud Functions) and integrates with Cloud Build pipelines. |
+| **Monitoring & Observability** | Azure Monitor, Log Analytics, Event Hubs Capture for long-term storage. | Amazon CloudWatch, enhanced monitoring APIs. | Google Cloud Monitoring, Cloud Logging. |
+| **Pricing Model** | Pay-per-event or throughput units; tiers for standard and dedicated clusters. | Pay-as-you-go based on data volume and shard-hours. | Pay-as-you-go per message volume; first 10 GB free per month. |
+| **Strengths** | High throughput, Azure-native integrations, Kafka compatibility. | Easy AWS integration, flexible scaling. | Global, scalable, simple to start. |
+| **Weaknesses** | Limited event retention, setup complexity for advanced scenarios. | Requires shard management, can be costly at scale. | No query language, costs can grow with high message volume. |
+
+**Narrative Analysis:**  
+Azure Event Hubs excels at high-throughput, low-latency event ingestion in Azure ecosystems, making it a strong choice for IoT, analytics, and telemetry pipelines. Its Kafka protocol support improves interoperability, and native Azure service integration enables end-to-end data processing with minimal glue code. While retention limits and advanced configuration complexity can be drawbacks, pairing Event Hubs with Azure Stream Analytics or Functions delivers robust streaming solutions.
 
 ---
 
@@ -157,3 +166,8 @@ From a serverless perspective:
 
 - [Serverless showdown: AWS Lambda vs Azure Functions vs Google Cloud Functions](https://www.pluralsight.com/resources/blog/cloud/serverless-showdown-aws-lambda-vs-azure-functions-vs-google-cloud-functions)
 - [Google Cloud Dataflow vs AWS Step Functions](https://www.projectpro.io/compare/google-cloud-dataflow-vs-aws-step-functions)
+- [Azure Service Bus vs Google Cloud Pub/Sub](https://ably.com/compare/azure-service-bus-vs-google-pub-sub)
+- [Amazon SQS vs Google Cloud Pub/Sub](https://ably.com/compare/amazon-sqs-vs-google-pub-sub)
+- [Amazon EventBridge Alternatives: Comparing Hookdeck, Azure Event Grid, Google Eventarc, and Confluent Kafka](https://hookdeck.com/blog/amazon-eventbridge-alternatives)
+- [Amazon Kinesis vs Azure Event Hubs](https://www.projectpro.io/compare/amazon-kinesis-vs-azure-event-hubs)
+- [Azure Event Hubs vs Google Cloud Pub/Sub](https://www.projectpro.io/compare/azure-event-hubs-vs-google-cloud-pub-sub)
